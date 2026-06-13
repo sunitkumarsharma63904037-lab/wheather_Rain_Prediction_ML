@@ -1,0 +1,55 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+x = [
+    [30, 95, 24], [30, 66, 19], [25, 70, 15], [28, 64, 22], [32, 80, 18],
+    [27, 75, 20], [35, 90, 12], [29, 68, 25], [31, 72, 17], [26, 60, 30],
+    [22, 88, 20], [24, 92, 18], [27, 78, 16], [29, 65, 14], [31, 70, 19],
+    [34, 80, 12], [36, 85, 10], [38, 60, 8], [26, 75, 22], [28, 82, 17],
+    [30, 90, 15], [32, 68, 13], [33, 72, 11], [25, 95, 25], [21, 85, 23],
+    [23, 77, 21], [35, 88, 9], [37, 70, 7], [39, 65, 6], [40, 55, 5],
+
+    [20, 96, 28], [21, 92, 26], [23, 89, 24], [24, 87, 22], [26, 84, 20],
+    [27, 81, 18], [28, 79, 16], [29, 76, 14], [30, 74, 12], [31, 71, 10],
+    [32, 69, 9], [33, 66, 8], [34, 64, 7], [35, 62, 6], [36, 60, 5],
+    [37, 58, 4], [38, 56, 3], [39, 54, 2], [40, 52, 1], [25, 90, 30],
+    [26, 88, 28], [27, 86, 26], [28, 84, 24], [29, 82, 22], [30, 80, 20],
+    [31, 78, 18], [32, 76, 16], [33, 74, 14], [34, 72, 12], [35, 70, 10],
+    [36, 68, 8], [37, 66, 6], [38, 64, 5], [39, 62, 4], [40, 60, 3]
+]
+
+y = [
+    1,0,1,0,1,1,1,0,1,0,
+    1,1,1,0,1,1,1,0,1,1,
+    1,0,1,0,1,1,1,0,1,1,
+    1,0,1,0,1,1,1,0,0,0,
+    0,0,1,1,1,0,0,1,1,1,
+    0,0,0,0,1,1,1,1,1,1,
+    1,1,0,0,0
+]
+
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2, random_state=42
+)
+
+model = GaussianNB()
+model.fit(x_train, y_train)
+
+temperature = float(input("Enter temperature: "))
+humidity = float(input("Enter humidity: "))
+windspeed = float(input("Enter windspeed: "))
+
+prediction = model.predict([[temperature, humidity, windspeed]])
+
+if prediction[0] == 1:
+    print("\nRain expected")
+else:
+    print("\nNo rain expected")
+
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Accuracy:", accuracy)
